@@ -22,25 +22,25 @@ router.post('/start-shopping', (req, res) => {
         req.session.options = 3; 
         req.session.shoppping = true;
         req.session.page = 1;
-        console.log("Text back one number to personalize the consumer's choice of merchandise. Greetings, welcome to our mobile chatbot is there anything you are looking for in particular? \n"+
+        twiml.message("Text back one number to personalize the consumer's choice of merchandise. Greetings, welcome to our mobile chatbot is there anything you are looking for in particular? \n"+
         "1: yes I need some assistance.\n2: yes, but I know what I am looking for.\n3: No, thank you.\n");
     }
 
     const handleInvalidSMS = () => {
         // sends an invalid number 
-        console.log ("Sorry, please select one of the following options listed.");
+        twiml.message ("Sorry, please select one of the following options listed.");
     }
 
     const handleShopperChoice = () => {
             // this will be only if the shopper chooses one of the 3 initial options
         console.log('This is your choice: ' + req.session.options); 
         if (req.session.options == 1) {
-            console.log('Sure, great choice! What type of fabric are you interested in?\n1: Durags\n2: Bonnets\n'); 
+            twiml.message('Sure, great choice! What type of fabric are you interested in?\n1: Durags\n2: Bonnets\n'); 
             req.session.page = 2;
         }else if  (req.session.options == 2)  { 
-            console.log('Awesome! We hope you find what you are looking for. Happy Shopping! ' + url);
+            twiml.message('Awesome! We hope you find what you are looking for. Happy Shopping! ' + url);
         }else if  (req.session.options == 3) { 
-            console.log('Okay great. You can always come back, if you change your mind; at any given point. Thank you for shopping with us! '+ url);
+            twiml.message('Okay great. You can always come back, if you change your mind; at any given point. Thank you for shopping with us! '+ url);
         }else {
             endShopping();
         }   
@@ -49,35 +49,35 @@ router.post('/start-shopping', (req, res) => {
     const handleWrongNumber = () => {
     // Let the shopper know that they entered the wrong number choice.
         if (req.session.options > 3 ) {
-            console.log ("Oops, you've chosen an incorrect number.");
+            twiml.message ("Oops, you've chosen an incorrect number.");
         }else {
-        console.log(endShopping);
+            endShopping();
         }
     }
     const handleShopperDesire = () => {
         // This will be only if the shopper chooses Durags or Bonnets, as a choice.
         if (req.session.options == 1) {
-            console.log('The product that you chose, is durag. What type of material are you interested in?\n1: Silk-satin\n2: Velour\n');
+            twiml.message('The product that you chose, is durag. What type of material are you interested in?\n1: Silk-satin\n2: Velour\n');
             req.session.page = 3;
             req.session.product = 'durag';
         } else if (req.session.options == 2) {
-            console.log('Sure, bonnets are a nice choice. What type of fabric are you interested in?\n1: Silk-satin\n2: Velour\n');
+            twiml.message('Sure, bonnets are a nice choice. What type of fabric are you interested in?\n1: Silk-satin\n2: Velour\n');
             req.session.page = 3;
             req.session.product = 'bonnet';
         }else if (req.session.options > 2) {
-            console.log('Please select a correct choice, so we can further assist you.');
+            twiml.message('Please select a correct choice, so we can further assist you.');
         }else {
-            console.log("Oops, you've chosen an incorrect number.");
+            twiml.message("Oops, you've chosen an incorrect number.");
         }
     }
     const handleShopperMaterial = () => {
         // update with the shopper's  choice either Silk-Satin or Velour material 
         if (req.session.options == 1) {
-            console.log('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url);       
+            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url);       
         }else if (req.session.options == 2) {
-            console.log('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url);       
+            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url);       
         }else if (req.session.options > 2) {
-            console.log('Thank you for choosing Cultures de Satin. '+ url);
+            twiml.message('Thank you for choosing Cultures de Satin. '+ url);
         }else {
             endShopping();
         }
