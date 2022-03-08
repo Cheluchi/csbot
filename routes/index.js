@@ -16,19 +16,22 @@ router.post('/start-shopping', (req, res) => {
     const word = 'shop';
 
     // Help functions 
-    const handleNewShopper = () => {
+    const handleNewShopper = (errormessage = '') => {
         // set up new consumer chatbot experience 
 
         req.session.options = 3; 
         req.session.shoppping = true;
         req.session.page = 1;
-        twiml.message("Text back one number to personalize the consumer's choice of merchandise. Greetings, welcome to our mobile chatbot is there anything you are looking for in particular? \n"+
-        "1: yes I need some assistance.\n2: yes, but I know what I am looking for.\n3: No, thank you.\n");
+        var message = "Text back one number to personalize the consumer's choice of merchandise. Greetings, welcome to our mobile chatbot is there anything you are looking for in particular? \n"+
+        "1: yes I need some assistance.\n2: yes, but I know what I am looking for.\n3: No, thank you.\n";
+        if (errormessage != '') {
+            message = errormessage + '\n' + message;
+        }
+        twiml.message(message);
     }
-
     const handleInvalidSMS = () => {
         // sends an invalid number 
-        twiml.message ("Sorry, please select one of the following options listed.");
+        handleNewShopper ("Sorry, please select one of the following options listed.");
     }
 
     const handleShopperChoice = () => {
