@@ -72,12 +72,20 @@ router.post('/start-shopping', (req, res) => {
     }
     const handleShopperMaterial = () => {
         // update with the shopper's  choice either Silk-Satin or Velour material 
-        let url1 = ('https://culturesdesatin.squarespace.com/shop/durags');
-        let url2 = ('https://culturesdesatin.squarespace.com/shop/bonnets');
+        var url = 'https://culturesdesatin.squarespace.com';
+        let url1 = 'https://culturesdesatin.squarespace.com/shop/durags';
+        let url2 = 'https://culturesdesatin.squarespace.com/shop/bonnets'; 
+        if (req.session.product == 'durag') {
+            url = 'https://culturesdesatin.squarespace.com/shop/durags';
+        }else if (req.session.product == 'bonnet') {
+            url = 'https://culturesdesatin.squarespace.com/shop/bonnets';
+        }
         if (req.session.options == 1) {
-            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url1);       
+            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination. '+ 
+            'Thank you for choosing Cultures de satin.\n'+ url);       
         }else if (req.session.options == 2) {
-            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url2);       
+            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.'+
+            'Thank you for choosing Cultures de satin.\n'+ url);       
         }else if (req.session.options > 2) {
             twiml.message('Thank you for choosing Cultures de Satin. '+ url);
         }else {
