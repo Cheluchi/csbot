@@ -37,6 +37,7 @@ router.post('/start-shopping', (req, res) => {
     const handleShopperChoice = () => {
             // this will be only if the shopper chooses one of the 3 initial options
         console.log('This is your choice: ' + req.session.options); 
+        var url = 'https://culturesdesatin.squarespace.com/';
         if (req.session.options == 1) {
             twiml.message('Sure, great choice! What type of fabric are you interested in?\n1: Durags\n2: Bonnets\n'); 
             req.session.page = 2;
@@ -45,7 +46,7 @@ router.post('/start-shopping', (req, res) => {
         }else if  (req.session.options == 3) { 
             twiml.message('Okay great. You can always come back, if you change your mind; at any given point. Thank you for shopping with us! '+ url);
         }else {
-            endShopping();
+            handleInvalidSMS();
         }   
     }
 
