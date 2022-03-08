@@ -72,10 +72,12 @@ router.post('/start-shopping', (req, res) => {
     }
     const handleShopperMaterial = () => {
         // update with the shopper's  choice either Silk-Satin or Velour material 
+        let url1 = new URL('https://culturesdesatin.squarespace.com/shop/durags');
+        let url2 = new URL('https://culturesdesatin.squarespace.com/shop/bonnets');
         if (req.session.options == 1) {
-            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url);       
+            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url1);       
         }else if (req.session.options == 2) {
-            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url);       
+            twiml.message('Okay great. Attached to this message is the company website. It will take you to your desired destination.Thank you for choosing Cultures de satin. '+ url2);       
         }else if (req.session.options > 2) {
             twiml.message('Thank you for choosing Cultures de Satin. '+ url);
         }else {
