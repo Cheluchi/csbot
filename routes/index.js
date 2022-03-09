@@ -29,10 +29,20 @@ router.post('/start-shopping', (req, res) => {
         }
         twiml.message(message);
     }
+
     const handleInvalidSMS = () => {
-        // sends an invalid number 
+        // sends an invalid number, but will reset the code to the begining.
         handleNewShopper ("Sorry, please select one of the following options listed.");
     }
+
+    const handleWrongNumber = () => {
+        // Let the shopper know that they entered the wrong number choice.
+            if (req.session.options > 3 ) {
+                twiml.message ("Oops, you've chosen an incorrect number.");
+            }else {
+                endShopping();
+            }
+        }
 
     const handleShopperChoice = () => {
             // this will be only if the shopper chooses one of the 3 initial options
@@ -43,21 +53,15 @@ router.post('/start-shopping', (req, res) => {
             req.session.page = 2;
         }else if  (req.session.options == 2)  { 
             twiml.message('Awesome! We hope you find what you are looking for. Happy Shopping! ' + url);
+                endShopping();
         }else if  (req.session.options == 3) { 
             twiml.message('Okay great. You can always come back, if you change your mind; at any given point. Thank you for shopping with us! '+ url);
+                endShopping();
         }else {
             handleInvalidSMS();
         }   
     }
 
-    const handleWrongNumber = () => {
-    // Let the shopper know that they entered the wrong number choice.
-        if (req.session.options > 3 ) {
-            twiml.message ("Oops, you've chosen an incorrect number.");
-        }else {
-            endShopping();
-        }
-    }
     const handleShopperDesire = () => {
         // This will be only if the shopper chooses Durags or Bonnets, as a choice.
         if (req.session.options == 1) {
@@ -69,16 +73,15 @@ router.post('/start-shopping', (req, res) => {
             req.session.page = 3;
             req.session.product = 'bonnet';
         }else if (req.session.options > 2) {
-            twiml.message('Please select a correct choice, so we can further assist you.');
+            handleNewShopper('Please select a correct choice, so we can further assist you.');
         }else {
-            twiml.message("Oops, you've chosen an incorrect number.");
+            handleNewShopper("Oops, you've chosen an incorrect number.");
         }
     }
+
     const handleShopperMaterial = () => {
         // update with the shopper's  choice either Silk-Satin or Velour material 
         var url = 'https://culturesdesatin.squarespace.com';
-        let url1 = 'https://culturesdesatin.squarespace.com/shop/durags';
-        let url2 = 'https://culturesdesatin.squarespace.com/shop/bonnets'; 
         if (req.session.product == 'durag') {
             url = 'https://culturesdesatin.squarespace.com/shop/durags';
         }else if (req.session.product == 'bonnet') {
@@ -92,9 +95,8 @@ router.post('/start-shopping', (req, res) => {
             'Thank you for choosing Cultures de satin.\n'+ url);       
         }else if (req.session.options > 2) {
             twiml.message('Thank you for choosing Cultures de Satin. '+ url);
-        }else {
-            endShopping();
         }
+        endShopping();
     }
 
     const endShopping = () => {
