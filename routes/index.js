@@ -8,6 +8,7 @@ console.log ('server is running' );
 router.post('/start-shopping', (req, res) => {
     // creates a instance for the messaging response 
     const twiml = new MessagingResponse();
+    const incomingMsg = req.body.Body.toLowerCase().trim();
 
     console.log(incomingMsg);
     // phone number would be any consumer who is interested in looking to narrow down their choices
@@ -20,7 +21,7 @@ router.post('/start-shopping', (req, res) => {
         // set up new consumer chatbot experience 
 
         req.session.options = 3; 
-        req.session.shoppping = true;
+        req.session.shopping = true;
         req.session.page = 1;
         var message = "Text back one number to personalize the consumer's choice of merchandise. Greetings, welcome to our mobile chatbot is there anything you are looking for in particular? \n"+
         "1: yes I need some assistance.\n2: yes, but I know what I am looking for.\n3: No, thank you.\n";
@@ -100,7 +101,7 @@ router.post('/start-shopping', (req, res) => {
     }
 
     const endShopping = () => {
-        req.session.shoppping = false;
+        req.session.shopping = false;
     }
             console.log('shopping is '+ req.session.shopping); 
     // The official bot execution Logic 
